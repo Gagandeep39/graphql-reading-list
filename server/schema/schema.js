@@ -13,6 +13,7 @@ const books = [
   { id: '1001', name: 'Pokemon', genre: 'Fantasy', authorId: '1001' },
   { id: '1002', name: 'Harry Potter', genre: 'Fantasy', authorId: '1002' },
   { id: '1003', name: '2 Broke Girls', genre: 'Comedy', authorId: '1003' },
+  { id: '1004', name: 'Please Like Me', genre: 'Drama', authorId: '1001' },
 ];
 
 const authors = [
@@ -27,6 +28,7 @@ const {
   GraphQLID,
   GraphQLInt,
   GraphQLSchema,
+  GraphQLList,
 } = graphql;
 
 const BookType = new GraphQLObjectType({
@@ -50,6 +52,12 @@ const AuthorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return _.filter(books, { authorId: parent.id });
+      },
+    },
   }),
 });
 
