@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { gql } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
 
-export default class BookList extends Component {
-  static propTypes = {
-    prop: PropTypes,
-  };
+const getBooksQuery = gql`
+  {
+    books {
+      name
+      id
+    }
+  }
+`;
 
+class BookList extends Component {
   render() {
+    console.log(this.props);
     return (
       <div>
         <ul id='book-list'>
@@ -16,3 +23,6 @@ export default class BookList extends Component {
     );
   }
 }
+
+// Allows graphQL data to be fetched from props
+export default graphql(getBooksQuery)(BookList);
