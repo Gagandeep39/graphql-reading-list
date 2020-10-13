@@ -11,11 +11,15 @@ const { graphqlHTTP } = require('express-graphql');
 const schema = require('./schema/schema');
 
 const app = express();
+require('dotenv').config();
+const connectDB = require('./config/db');
+connectDB();
 
 app.use(
   '/graphql',
   graphqlHTTP({
     schema,
+    graphiql: true
   })
 );
 
