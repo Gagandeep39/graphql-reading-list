@@ -6,7 +6,7 @@ import BookList from './components/BookList';
 // Apollo Init
 
 const client = new ApolloClient({
-  uri: process.env.SERVER_URI,
+  uri: process.env.REACT_APP_SERVER_URI,
   cache: new InMemoryCache()
 });
 
