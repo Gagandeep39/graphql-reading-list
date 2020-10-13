@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-// require('dotenv').config();
-import { ApolloProvider, ApolloClient } from '@apollo/client';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import BookList from './components/BookList';
 
 // Apollo Init
 
 const client = new ApolloClient({
   uri: process.env.SERVER_URI,
+  cache: new InMemoryCache()
 });
 
 function App() {
