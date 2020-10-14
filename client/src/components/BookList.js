@@ -5,37 +5,31 @@
  * @modify date 2020-10-14 11:46:55
  * @desc Show list of Books
  */
-import React, { Component } from 'react';
-import { graphql } from '@apollo/client/react/hoc';
-import { getBooksQuery } from '../graphql/queries';
+import React, { useState } from 'react';
 import BookDetails from './BookDetails';
+import { useQuery } from '@apollo/client';
+import { getBooksQuery } from '../graphql/queries';
 
-class BookList extends Component {
+const BookList = () => {
+  const { loading, data } = useQuery(getBooksQuery);
+  const [selected, setSelected] = useState('');
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: ''
-    }
-  }
+  const displayBooks = () => {
+    if (loading) return <div>Loading...</div>;
+    else
+      return data.books.map((book) => (
+        <li key={book.id} onClick={() => setSelected(book.id)}>
+          {book.name}
+        </li>
+      ));
+  };
 
-  displayBooks() {
-    const data = this.props.data;
-    if (data.loading) return <div>Loading...</div>;
-    else return data.books.map(book => <li key={book.id} onClick={()=> this.setState({selected: book.id})}> {book.name} </li>)
-  }
+  return (
+    <div>
+      <ul id='book-list'>{displayBooks()}</ul>
+      <BookDetails bookId={selected} />
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <ul id='book-list'>
-          { this.displayBooks() }
-        </ul>
-        <BookDetails bookId={this.state.selected} />
-      </div>
-    );
-  }
-}
-
-// Allows graphQL data to be fetched from props
-export default graphql(getBooksQuery)(BookList);
+export default BookList;
