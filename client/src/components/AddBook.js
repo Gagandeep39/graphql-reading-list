@@ -8,6 +8,8 @@
 import React, { Component } from 'react';
 import { graphql } from '@apollo/client/react/hoc';
 import { getAuthorsQuery } from '../graphql/queries';
+import { addBookMutation } from '../graphql/mutations';
+import { compose } from 'redux';
 
 class AddBook extends Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class AddBook extends Component {
   }
 
   displayAuthors() {
-    const data = this.props.data;
+    const data = this.props.getAuthorsQuery;
     if (data.loading) return <option disabled>Loading...</option>;
     else
       return data.authors.map((author) => (
@@ -69,4 +71,8 @@ class AddBook extends Component {
   }
 }
 
-export default graphql(getAuthorsQuery)(AddBook);
+export default compose(
+  // name: Name reference through which we can access it from props
+  graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
+  graphql(addBookMutation, { name: 'addBookMutation' })
+)(AddBook);
