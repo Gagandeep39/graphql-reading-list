@@ -3,16 +3,23 @@
  * @email singh.gagandeep3911@gmail.com
  * @create date 2020-10-14 12:49:56
  * @modify date 2020-10-14 12:49:56
- * @desc [description]
+ * @desc Display book details, author and its other books
  */
-import { graphql } from '@apollo/client/react/hoc';
-import React, { Component } from 'react';
+import React from 'react';
 import { getBookQuery } from '../graphql/queries';
+import { useQuery } from '@apollo/client';
+import PropTypes from 'prop-types';
 
-class BookDetails extends Component {
-  displayBookDetails() {
-    const { book } = this.props.data;
-    if (book)
+function BookDetails({ bookId }) {
+  const { loading, error, data } = useQuery(getBookQuery, {
+    variables: { id: bookId },
+  });
+
+  const displayBookDetails = () => {
+    if (bookId === '') return <div>No Book selected.</div>;
+    if (loading) return <div>Loading...</div>;
+    else if (data) {
+      const { book } = data;
       return (
         <div>
           <h2> {book.name} </h2>
@@ -26,19 +33,14 @@ class BookDetails extends Component {
           </ul>
         </div>
       );
-    else return <div>No Book selected.</div>;
-  }
+    } else return <div>Error {error}</div>;
+  };
 
-  render() {
-    return (
-      <div id='book-details'>
-        { this.displayBookDetails() }
-      </div>
-    );
-  }
+  return <div id='book-details'>{displayBookDetails()}</div>;
 }
-export default graphql(getBookQuery, {
-  options: (props) => {
-    return { variables: { id: props.bookId } };
-  },
-})(BookDetails);
+
+BookDetails.propTypes = {
+  bookId: PropTypes.string,
+};
+
+export default BookDetails;
