@@ -37,6 +37,8 @@
 
 ### Local Environemnt
 - `npm run dev` - Concurrently starts client and server
+- Create a `.env` in root of client with `REACT_APP_SERVER_URI` for Server URL
+- Create a .env in root of whole application for mongo uri with key `MONGO_URI`
 
 ## Rest API
 
