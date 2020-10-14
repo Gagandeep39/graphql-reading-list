@@ -9,7 +9,7 @@ import { gql } from '@apollo/client';
 
 const addBookMutation = gql`
   mutation {
-    addBook (name = "", genre = "", authorId = "") {
+    addBook (name : "", genre : "", authorId : "") {
       name
       id
     }
