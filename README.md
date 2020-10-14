@@ -1,6 +1,8 @@
 # GraphQL
 
 - [GraphQL](#graphql)
+  - [Running the application](#running-the-application)
+    - [Local Environemnt](#local-environemnt)
   - [Rest API](#rest-api)
     - [Limitation](#limitation)
   - [GraphQL API](#graphql-api)
@@ -25,7 +27,16 @@
     - [POST Request](#post-request)
   - [GraphQLNonNull](#graphqlnonnull)
   - [Utilities](#utilities)
+  - [GraphQL Client](#graphql-client)
+    - [Installation](#installation)
+    - [Initialization](#initialization)
+    - [Accessing data](#accessing-data)
   - [Notes](#notes)
+
+## Running the application
+
+### Local Environemnt
+- `npm run dev` - Concurrently starts client and server
 
 ## Rest API
 
@@ -240,7 +251,60 @@ const _ = require('lodash');
 return _.find(bookArr, { id: 12 });
 ```
 
+## GraphQL Client
+- To make a reuest to GraphQL erver we need a graphQL client
+- Apollo library is used to make GraphQL requests
 
+### Installation
+- `npm install @apollo/client graphql`
+
+### Initialization
+```js
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+const client = new ApolloClient({
+  uri: 'http://localhost:4000',
+  cache: new InMemoryCache()
+});
+function App() {
+  return (
+    <ApolloProvider client={client}>
+      <div className='App'>
+        
+      </div>
+    </ApolloProvider>
+  );
+}
+```
+
+### Accessing data
+```js
+import React, { Component } from 'react';
+import { gql } from '@apollo/client';
+import { graphql } from '@apollo/client/react/hoc';
+
+// GraphQL query
+const getBooksQuery = gql`
+  {
+    books {
+      name
+      id
+    }
+  }
+`;
+
+class BookList extends Component {
+  render() {
+    console.log(this.props);
+    return (
+      <div>
+      </div>
+    );
+  }
+}
+
+// Allows graphQL data to be fetched from props
+export default graphql(getBooksQuery)(BookList);
+```
 
 ## Notes
 - Why arraw function
