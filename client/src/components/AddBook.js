@@ -7,7 +7,7 @@
  */
 import React, { Component } from 'react';
 import { graphql } from '@apollo/client/react/hoc';
-import { getAuthorsQuery } from '../graphql/queries';
+import { getAuthorsQuery, getBooksQuery } from '../graphql/queries';
 import { addBookMutation } from '../graphql/mutations';
 import { compose } from 'redux';
 
@@ -34,7 +34,10 @@ class AddBook extends Component {
 
   submitForm(event) {
     event.preventDefault();
-    this.props.addBookMutation({ variables: this.state });
+    this.props.addBookMutation({
+      variables: this.state,
+      refetchQueries: [{ query: getBooksQuery }],
+    });
   }
 
   render() {
@@ -74,5 +77,6 @@ class AddBook extends Component {
 export default compose(
   // name: Name reference through which we can access it from props
   graphql(getAuthorsQuery, { name: 'getAuthorsQuery' }),
-  graphql(addBookMutation, { name: 'addBookMutation' })
+  graphql(addBookMutation, { name: 'addBookMutation' }),
+  graphql(getBooksQuery, { name: 'getBooksQuery' })
 )(AddBook);
