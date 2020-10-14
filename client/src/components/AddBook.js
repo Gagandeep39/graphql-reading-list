@@ -1,16 +1,13 @@
+/**
+ * @author Gagandeep Singh
+ * @email singh.gagandeep3911@gmail.com
+ * @create date 2020-10-14 11:45:46
+ * @modify date 2020-10-14 11:45:46
+ * @desc Add Books
+ */
 import React, { Component } from 'react';
-
-import { gql } from '@apollo/client';
 import { graphql } from '@apollo/client/react/hoc';
-
-const getAuthorsQuery = gql`
-  {
-    authors {
-      name
-      id
-    }
-  }
-`;
+import { getAuthorsQuery } from '../graphql/queries';
 
 class AddBook extends Component {
   displayAuthors() {

@@ -1,15 +1,13 @@
+/**
+ * @author Gagandeep Singh
+ * @email singh.gagandeep3911@gmail.com
+ * @create date 2020-10-14 11:46:55
+ * @modify date 2020-10-14 11:46:55
+ * @desc Show list of Books
+ */
 import React, { Component } from 'react';
-import { gql } from '@apollo/client';
 import { graphql } from '@apollo/client/react/hoc';
-
-const getBooksQuery = gql`
-  {
-    books {
-      name
-      id
-    }
-  }
-`;
+import { getBooksQuery } from '../graphql/queries';
 
 class BookList extends Component {
   displayBooks() {
